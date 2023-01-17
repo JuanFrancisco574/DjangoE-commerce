@@ -28,7 +28,6 @@ class Product(models.Model):
     name = models.CharField(max_length=200,null=True)
     price = models.FloatField()
     description = models.TextField()
-    available_units = models.IntegerField()
     image = models.ImageField(null=True,blank=True)
     category = models.ForeignKey(Category,on_delete=models.SET_NULL,null=True,blank=True)
 
