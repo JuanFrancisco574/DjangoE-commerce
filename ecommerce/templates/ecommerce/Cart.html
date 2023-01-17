@@ -1,0 +1,118 @@
+{% extends 'ecommerce/Main.html' %}
+{% load static %}
+{% block title %}Carrito de compras{% endblock title %}
+{% csrf_token %}
+{% block content %}
+
+    <style>
+        .product-images {
+                width: 70px;
+                height: 70px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        thead th {
+            background-color: #f5f5f5;
+        }
+
+        button {
+            margin-right: 10px;
+        }
+
+    </style>
+
+    <div class="container">
+        <h1>Carrito de compras</h1>
+
+        <div class="row">
+        <div class="col-md-8">
+            <table class="table">
+            <thead>
+                <tr>
+                <th>Imagen</th>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+{% if user.is_authenticated %}
+
+    {% for item in cart %}
+
+        <tr>
+            <td>
+                <img src="{{ item.product.imageURL }}" class="img-thumbnail product-images">
+            </td>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.product.price }} MNX</td>
+            <td>
+                {{ item.quantity }}
+                <button class="update-item" data-product="{{ item.product.id }}" data-action="add" >+</button>
+                <button class="update-item" data-product="{{ item.product.id }}" data-action="remove" >-</button>
+            </td>
+            <td> {{ item.get_total  }} MNX</td>
+            <td>
+                <button class="btn btn-danger delete-item" data-product="{{ item.product.id }}" >Eliminar</button>
+            </td>
+        </tr>
+
+    {% endfor %}
+
+{% else %}
+
+    {% for item in cart %}
+
+        <tr>
+            <td>
+                <img src="{{ item.imageURL }}" class="img-thumbnail product-images">
+            </td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.price|floatformat:2 }} MNX</td>
+            <td>
+                {{ item.quantity }}
+                <button class="update-item" data-product="{{ item.id }}" data-action="add" >+</button>
+                <button class="update-item" data-product="{{ item.id }}" data-action="remove" >-</button>
+            </td>
+            <td>  {{ item.total }} MNX</td>
+            <td>
+                <button class="btn btn-danger delete-item" data-product="{{ item.id }}" >Eliminar</button>
+            </td>
+        </tr>
+               
+    {% endfor %}
+    
+{% endif %}
+
+
+
+            </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-4">
+            <h3>Resumen de compra</h3>
+            <table class="table">
+            <tr>
+                <td>Total</td>
+                <td>${{ order.get_cart_total|floatformat:2 }} MNX</td>
+            </tr>
+            </table>
+            <a class="btn btn-primary" href="{% url 'checkout' %}">Proceder al pago</a>
+        </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+  
+
+

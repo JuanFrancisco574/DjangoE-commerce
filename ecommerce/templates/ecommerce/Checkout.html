@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+    <title>Check out</title>
+</head>
+<body>
+
+    {% if error_message != '' %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ error_message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endif %}
+
+    <div class="container m-5">
+        <div class="row g-5">
+            <div class="col-md-6 col-lg-4 order-md-last">
+
+
+              <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-primary">Tu carrito de compras</span>
+                <span class="badge bg-primary rounded-pill"> {{ cartItems }} </span>
+              </h4>
+
+
+              <ul class="list-group mb-3">
+
+                {% for item in cart %}
+
+                  <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                      <img src="{{ item.product.imageURL }}" class="img-thumbnail" width="70px" height="70px">
+                    </div>
+                    <div>
+                      <p>{{ item.product.name }}</p>
+                      <p> Cantidad: {{ item.quantity }} </p>
+                      <p> Precio: {{ item.product.price }} </p>
+                    </div>
+                    <span class="mx-1">Subtotal: ${{ item.get_total|floatformat:2 }}(MNX)</span>
+                  </li>
+
+                {% endfor %}
+
+                
+              
+                <li class="list-group-item d-flex justify-content-between">
+                  <span>Total: <strong> {{order.get_cart_total|floatformat:2 }}(MNX) </strong></span>
+                  
+                </li>
+              </ul>
+      
+              
+            </div>
+
+            <div class="col-md-6 col-lg-8">
+              <h4 class="mb-3">Información de compra</h4>
+
+              <form class="needs-validation" method="post" action="{% url 'checkout' %}">
+                {% csrf_token %}
+
+                <div class="row g-3">
+      
+                  <div class="col-12">
+                    <label for="address" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Ej: Calle el tanquesito #2" required="">
+                  </div>
+
+                  <div class="col-12">
+                    <label for="city" class="form-label">Ciudad</label>
+                    <input type="text" class="form-control" id="city" name="city" placeholder="Ej: Guadalupe" required="">
+                  </div>
+
+                  <input type="hidden" id="total" name="total" value="{{ order.get_cart_total|floatformat:2 }}">
+
+                  <div class="col-12">
+                    <label for="state" class="form-label">Estado</label>
+                    <input type="text" class="form-control" id="state" name="state" placeholder="Ej: Zacatecas" required="">
+                  </div>
+
+
+                </div>
+      
+                <hr class="my-4">
+      
+                <button class="w-100 btn btn-primary btn-lg mb-2" type="submit">Continue to checkout</button>
+                <a class="w-100 btn btn-warning btn-lg" href="{% url 'index' %}"> Regresar al inicio y Seguir comprando</a>
+
+              </form>
+            </div>
+          </div>
+    </div>
+</body>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}" ></script>
+</html>

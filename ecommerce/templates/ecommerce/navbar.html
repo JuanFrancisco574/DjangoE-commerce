@@ -1,0 +1,52 @@
+{% load static %}
+<header class="p-3 border-bottom">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="{% url 'index' %}" class="nav-link px-2 link-success text-success text-bold">Inicio</a></li>
+          <li>
+            <div class="dropdown text-end">
+                <p class="nav-link px-2 link-dark d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Categorias</p>
+                <ul class="dropdown-menu text-small">
+                  <li><a class="dropdown-item" href="/products/Detergentes%20y%20Productos%20de%20Limipieza/">Detergentes y Productos de Limipieza</a></li>
+                  <li><a class="dropdown-item" href="/products/Productos%20Lácteos/">Productos Lácteos</a></li>
+                  <li><a class="dropdown-item" href="/products/Abarrotes/">Abarrotes</a></li>
+                </ul>
+              </div>
+          </li>
+        </ul>
+
+        <div class="">
+          <a href="{% url 'cart' %}" class="my-auto mx-2 text-decoration-none text-dark">Carrito( {{ cartItems }} )</a>
+        </div>
+
+        {% if request.user.is_authenticated %}
+          <p class="my-auto mx-3 text-decoration-none text-dark">{{ request.user.customer.name }}</p>
+        {% endif %}
+
+        <div class="dropdown text-end">
+          {% if request.user.is_authenticated %}
+            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="{% static 'images/anonymus.webp' %}" alt="mdo" width="32" height="32" class="rounded-circle">
+            </a>
+            <ul class="dropdown-menu text-small">
+              <li><a class="dropdown-item" href="{% url 'cart' %}">Ver carrito de compras</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+            </ul>
+          {% else %}
+            <p class="d-block link-dark text-decoration-none dropdown-toggle my-auto" data-bs-toggle="dropdown" aria-expanded="false">
+              Tu cuenta
+            </p>
+            <ul class="dropdown-menu text-small">
+              <li><a class="dropdown-item" href="{% url 'login' %}">Iniciar sesión</a></li>
+              <li><a class="dropdown-item" href="{% url 'register' %}">Crear cuenta</a></li>
+            </ul>
+          {% endif %}
+      </div>
+    </div>
+</header>

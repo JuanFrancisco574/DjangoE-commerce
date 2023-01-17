@@ -1,0 +1,19 @@
+{% load static %}
+
+<div class="container my-3">
+    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border" style="background-color: #F2F3F4;" >
+      <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+        <h1 class="display-4 fw-bold lh-1">!Bienvenido a nuestra tienda de abarrotes en línea!</h1>
+        <p class="lead">Tenemos todo lo que necesita para llenar su despensa, 
+          desde alimentos básicos hasta productos gourmet. Haga su compra en línea hoy 
+          y ahorre tiempo y esfuerzo en su próximo viaje de compras. 
+          ¡Hacemos envíos rápidos y seguros a toda la ciudad!</p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+          <a  href="{% url 'login' %}" class="btn btn-success btn-lg px-4 me-md-2 fw-bold">Registrate para Empezar a comprar!</a>
+        </div>
+      </div>
+      <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden">
+          <img class="rounded-lg-3" src="{% static 'images/banner_donut.png' %}" alt="" width="370">
+      </div>
+    </div>
+</div>
